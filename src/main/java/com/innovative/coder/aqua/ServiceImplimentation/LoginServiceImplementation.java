@@ -1,5 +1,6 @@
 package com.innovative.coder.aqua.ServiceImplimentation;
 
+import com.innovative.coder.aqua.ApplicationUtils;
 import com.innovative.coder.aqua.Configure.JwtTokenUtils;
 import com.innovative.coder.aqua.Dto.AquaAdminSignupDto;
 import com.innovative.coder.aqua.Dto.BaseResponseDto;
@@ -21,11 +22,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
 @Service
 public class LoginServiceImplementation implements LoginService {
+    public static final String PLEASE_PROVIDE_CORRECT_PASSWORD = "Please provide correct password";
+    public static final String AQUA_ADMIN_CREATED_SUCCESSFULLY = "Aqua admin created successfully.";
+    public static final String AQUA_ADMIN_ALREADY_EXISTS = "Aqua admin already exists.";
     @Autowired
     private LoginRepository loginRepository;
     @Autowired
@@ -42,9 +47,9 @@ public class LoginServiceImplementation implements LoginService {
             Assert.notNull(user, ApplicationConstants.EMAIL_NOT_EXIST);
                     LoginResponseDto loginResponse = getLoginResponseDtoResponseEntity(loginDto, request, loginResponseDto, user);
                     if (loginResponse != null) {
-                        new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
+                         new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
                     }else {
-                        throw new ApiException("Please provide correct password");
+                        throw new ApiException(PLEASE_PROVIDE_CORRECT_PASSWORD);
                     }
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,31 +63,52 @@ public class LoginServiceImplementation implements LoginService {
 
     private LoginResponseDto getLoginResponseDtoResponseEntity(LoginDto loginDto, HttpServletRequest request, LoginResponseDto loginResponseDto, User user) {
         if (Boolean.TRUE.equals(applicationUtilityServiceImpl.isPasswordMatched(loginDto.getPassword(), user.getPassword()))) {
-            Login login = new Login();
-            login.setUser(user);
-            login.setStatus(ApplicationEnums.LogInStatusEnum.LOGGED_IN);
-            login.setLoggedInTime(LocalDateTime.now());
-            login.setBrowserDetails(request.getHeader(ApplicationConstants.USER_AGENT));
-            login.setToken(jwtTokenUtils.generateToken(login.getUser()));
-            Login savedLogin = loginRepository.save(login);
-            loginResponseDto.setEmail(savedLogin.getUser().getEmail());
-            loginResponseDto.setToken(savedLogin.getToken());
-            loginResponseDto.setRole(savedLogin.getUser().getRole());
-            loginResponseDto.setMessage(ApplicationConstants.LOGIN_SUCCESSFUL);
-            loginResponseDto.setId(savedLogin.getUser().getId());
-            Assert.notNull(savedLogin.getUser(), ApplicationConstants.USER_NOT_FOUND);
-            return loginResponseDto;
+            if(user.getLogins().stream().noneMatch(login -> StringUtils.pathEquals(ApplicationEnums.LogInStatusEnum.LOGGED_IN.toString(), login.getStatus().toString()))) {
+                Login login = new Login();
+                login.setUser(user);
+                login.setStatus(ApplicationEnums.LogInStatusEnum.LOGGED_IN);
+                login.setLoggedInTime(LocalDateTime.now());
+                login.setBrowserDetails(request.getHeader(ApplicationConstants.USER_AGENT));
+                login.setToken(jwtTokenUtils.generateToken(login.getUser()));
+                Login savedLogin = loginRepository.save(login);
+                loginResponseDto.setEmail(savedLogin.getUser().getEmail());
+                loginResponseDto.setToken(savedLogin.getToken());
+                loginResponseDto.setRole(savedLogin.getUser().getRole());
+                loginResponseDto.setMessage(ApplicationConstants.LOGIN_SUCCESSFUL);
+                loginResponseDto.setId(savedLogin.getUser().getId());
+                Assert.notNull(savedLogin.getUser(), ApplicationConstants.USER_NOT_FOUND);
+                return loginResponseDto;
+            }else {
+                throw new ApiException(ApplicationConstants.ALREADY_LOGGED_IN);
+            }
         }
         return null;
     }
 
+    @Autowired
+    private ApplicationUtils applicationUtils;
     @Override
     public ResponseEntity<BaseResponseDto> logout(HttpServletRequest request) {
+        BaseResponseDto baseResponseDto = new BaseResponseDto();
+       try {
+           Login login = applicationUtils.tokenChecking(request);
+           if(!ObjectUtils.isEmpty(login)){
+               login.setStatus(ApplicationEnums.LogInStatusEnum.LOGGED_OUT);
+               loginRepository.save(login);
+               baseResponseDto.setMessage(ApplicationConstants.LOGOUT_SUCCESSFUL);
+               return new ResponseEntity<>(baseResponseDto, HttpStatus.OK);
+            }
+        }catch (Exception exception) {
+           exception.printStackTrace();
+//            log.info(e.getLocalizedMessage());
+           baseResponseDto.setMessage(exception.getLocalizedMessage());
+           return new ResponseEntity<>(baseResponseDto, HttpStatus.BAD_REQUEST);
+       }
         return null;
     }
 
     @Override
-    public Login findByTokenAndStatus(String authToken, String status) {
+    public Login findByTokenAndStatus(String authToken, ApplicationEnums.LogInStatusEnum status) {
         return loginRepository.findByTokenAndStatus(authToken, status);
     }
 
@@ -100,10 +126,10 @@ public class LoginServiceImplementation implements LoginService {
                 user.setIsActive(Boolean.TRUE);
                 user.setRole(aquaAdmin);
                 userRepository.save(user);
-                baseResponseDto.setMessage("Aqua admin created successfully.");
+                baseResponseDto.setMessage(AQUA_ADMIN_CREATED_SUCCESSFULLY);
             }
             else {
-                throw new ApiException("Aqua admin already exists.");
+                throw new ApiException(AQUA_ADMIN_ALREADY_EXISTS);
             }
         }catch (Exception e)
         {
