@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Assert.isTrue(user.getIsActive(), "User is Inactive");
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
-                    List.of(new SimpleGrantedAuthority(user.getUserRole())));
+                    List.of(new SimpleGrantedAuthority(user.getRole())));
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (IllegalArgumentException | NullPointerException e) {
