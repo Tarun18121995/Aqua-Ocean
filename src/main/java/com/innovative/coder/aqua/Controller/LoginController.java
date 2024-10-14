@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @SecurityRequirement(name = "Authorization")
 @RequestMapping(value = "/user")
+@RequestMapping(value = "/user")
 public class LoginController {
 @Autowired
 private LoginService loginService;
