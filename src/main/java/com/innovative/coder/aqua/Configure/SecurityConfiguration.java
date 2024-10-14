@@ -45,7 +45,7 @@ public class SecurityConfiguration {
 
         // Updated authorizeHttpRequests configuration
         httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/", "/index.html", "/views/**", "/css/**", "/libs/**", "/js/**", "/user-login/**","/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/v2/api-docs", "/configuration/ui", "/webjars/**").permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/", "/index.html", "/views/**", "/css/**", "/libs/**", "/js/**", "/user/**","/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/v2/api-docs", "/configuration/ui", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
         ).exceptionHandling(exceptionHandling ->
                 exceptionHandling.accessDeniedHandler(accessDeniedHandler())

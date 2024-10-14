@@ -26,6 +26,9 @@ import java.time.LocalDateTime;
 
 @Service
 public class LoginServiceImplementation implements LoginService {
+    public static final String PLEASE_PROVIDE_CORRECT_PASSWORD = "Please provide correct password";
+    public static final String AQUA_ADMIN_CREATED_SUCCESSFULLY = "Aqua admin created successfully.";
+    public static final String AQUA_ADMIN_ALREADY_EXISTS = "Aqua admin already exists.";
     @Autowired
     private LoginRepository loginRepository;
     @Autowired
@@ -44,7 +47,7 @@ public class LoginServiceImplementation implements LoginService {
                     if (loginResponse != null) {
                         new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
                     }else {
-                        throw new ApiException("Please provide correct password");
+                        throw new ApiException(PLEASE_PROVIDE_CORRECT_PASSWORD);
                     }
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,10 +103,10 @@ public class LoginServiceImplementation implements LoginService {
                 user.setIsActive(Boolean.TRUE);
                 user.setRole(aquaAdmin);
                 userRepository.save(user);
-                baseResponseDto.setMessage("Aqua admin created successfully.");
+                baseResponseDto.setMessage(AQUA_ADMIN_CREATED_SUCCESSFULLY);
             }
             else {
-                throw new ApiException("Aqua admin already exists.");
+                throw new ApiException(AQUA_ADMIN_ALREADY_EXISTS);
             }
         }catch (Exception e)
         {
