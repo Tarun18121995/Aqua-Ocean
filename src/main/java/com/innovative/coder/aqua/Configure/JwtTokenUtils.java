@@ -46,7 +46,7 @@ public class JwtTokenUtils {
     private String doGenerateToken(User user) {
 
         Claims claims = Jwts.claims().setSubject(user.getEmail());
-        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority(user.getUserRole())));
+        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
 
         LocalDateTime localDateTime = LocalDateTime.now();
 
