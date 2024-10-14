@@ -12,12 +12,9 @@ import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.lang.annotation.ElementType;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,44 +33,45 @@ public class User extends BaseEntity
     @Column(columnDefinition = "VARCHAR(36)")
     @JdbcTypeCode(Types.VARCHAR)
     private UUID id;
-    private String employeeId;
     private String firstName;
     private String lastName;
-    @Column(columnDefinition = "TEXT")
-    private String description;
     private String email;
     private LocalDateTime failedLoginAttempt;
     private Integer loginAttemptCount=0;
     @Column(columnDefinition = "VARCHAR(15)")
     private String mobile;
-    @Column(columnDefinition = "VARCHAR(15)")
-    private String secondaryPhoneNo;
-    @Column(columnDefinition = "VARCHAR(15)")
-    private String emergencyPhoneNo;
-    private String martialStatus;
     private String bloodGroup;
-    private Boolean isPhysicallyHandicap;
     private String password;
     private Boolean isPasswordUpdated;
-    private String personalEmail;
-    //    private String conformationCode;
-    @Column(columnDefinition = "VARCHAR(15)")
     private String gender;
     private LocalDate dateOfBirth;
-    private LocalDate dateOfJoining;
     private String profilePicUrl;
-    @Column(columnDefinition = "VARCHAR(36)")
-//    @Type(type = "uuid-char")
-    private UUID userId;
-    private String profession;
+    @JdbcTypeCode(Types.VARCHAR)
+    private UUID createdBy;
     private String language;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Company customer;
-    private String userRole;
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    private Company company;
+    private String role;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     @JsonIgnore
     private List<Login> logins;
-    private String addressList;
+    @Column(name = "user_address_1")
+    private String userAddress1;
+    @Column(name = "user_address_2")
+    private String userAddress2;
+    @Column(name = "city")
+    private String city;
+    @Column(name = "district")
+    private String district;
+    @Column(name = "state")
+    private String state;
+    @Column(name = "country")
+    private String country;
+    @Column(name = "postal_code")
+    private String postalCode;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "pondOwner")
+    @JsonIgnore
+    private List<Pond> pond;
 }

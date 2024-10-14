@@ -1,6 +1,5 @@
 package com.innovative.coder.aqua.ServiceImplimentation;
 
-import com.innovative.coder.aqua.Configure.JwtAuthenticationFilter;
 import com.innovative.coder.aqua.Configure.JwtTokenUtils;
 import com.innovative.coder.aqua.Dto.AquaAdminSignupDto;
 import com.innovative.coder.aqua.Dto.BaseResponseDto;
@@ -68,7 +67,7 @@ public class LoginServiceImplementation implements LoginService {
             Login savedLogin = loginRepository.save(login);
             loginResponseDto.setEmail(savedLogin.getUser().getEmail());
             loginResponseDto.setToken(savedLogin.getToken());
-            loginResponseDto.setRole(savedLogin.getUser().getUserRole());
+            loginResponseDto.setRole(savedLogin.getUser().getRole());
             loginResponseDto.setMessage(ApplicationConstants.LOGIN_SUCCESSFUL);
             loginResponseDto.setId(savedLogin.getUser().getId());
             Assert.notNull(savedLogin.getUser(), ApplicationConstants.USER_NOT_FOUND);
@@ -93,13 +92,13 @@ public class LoginServiceImplementation implements LoginService {
         try
         {
             String aquaAdmin = ApplicationEnums.RoleEnum.AQUA_ADMIN.toString();
-            final User userDetails =userRepository.findByUserRoleAndIsDeleted(aquaAdmin, Boolean.FALSE);
+            final User userDetails =userRepository.findByRoleAndIsDeleted(aquaAdmin, Boolean.FALSE);
             if (ObjectUtils.isEmpty(userDetails)){
                 User user =new User();
                 BeanUtils.copyProperties(aquaAdminSignupDto, user);
                 user.setPassword(applicationUtilityServiceImpl.getEncryptedPassword(aquaAdminSignupDto.getPassword()));
                 user.setIsActive(Boolean.TRUE);
-                user.setUserRole(aquaAdmin);
+                user.setRole(aquaAdmin);
                 userRepository.save(user);
                 baseResponseDto.setMessage("Aqua admin created successfully.");
             }

@@ -54,7 +54,7 @@ public class Company extends BaseEntity
 
     //    private LocalDateTime mailSentOn;
 //    private LocalDateTime createdAt;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "company")
     private List<User> Users;
 
 //    @OneToMany(mappedBy="customer")
