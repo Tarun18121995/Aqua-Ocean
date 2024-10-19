@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filter)
             throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
+        String header = request.getHeader(ApplicationConstants.AUTHORIZATION);
         logger.info("Incoming request: " + request.getRequestURI());
 
         // Check for the presence of the Authorization header
@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         logger.info("Extracted authToken: " + authToken);
 
         try {
-            Login login = loginService.findByTokenAndStatus(authToken, ApplicationEnums.LogInStatusEnum.LOGGED_IN.toString());
+            Login login = loginService.findByTokenAndStatus(authToken, ApplicationEnums.LogInStatusEnum.LOGGED_IN);
             Assert.notNull(login, "TOKEN EXPIRED or DELETED");
 
             User user = login.getUser();
