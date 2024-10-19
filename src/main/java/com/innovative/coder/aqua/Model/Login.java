@@ -31,18 +31,12 @@ public class Login
     @Column(columnDefinition = "VARCHAR(36)")
     @JdbcTypeCode(Types.VARCHAR)
     private UUID id;
-
     private String token;
-
     private String browserDetails;
-
     private LocalDateTime loggedInTime;
-
     private LocalDateTime loggedOutTime;
-
     @Enumerated(EnumType.STRING)
     private ApplicationEnums.LogInStatusEnum status;
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

@@ -14,7 +14,7 @@ public interface LoginService {
 
     ResponseEntity<BaseResponseDto> logout(HttpServletRequest request);
 
-    Login findByTokenAndStatus(String authToken, String toString);
+    Login findByTokenAndStatus(String authToken, ApplicationEnums.LogInStatusEnum toString);
 
     ResponseEntity<BaseResponseDto> createAquaAdmin(AquaAdminSignupDto aquaAdminSignupDto);
 }

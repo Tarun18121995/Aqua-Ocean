@@ -1,5 +1,6 @@
 package com.innovative.coder.aqua.Configure;
 
+import com.innovative.coder.aqua.applicationData.ApplicationConstants;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.models.info.Info;
@@ -15,12 +16,12 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "com.innovative.coder.aqua.controller")
 @OpenAPIDefinition
 @SecurityScheme(
-        name = "Authorization",
+        name = ApplicationConstants.AUTHORIZATION,
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer"
 )
-@SecurityRequirement(name = "bearerAuth")
+@SecurityRequirement(name = ApplicationConstants.AUTHORIZATION)
 public class SwaggerConfiguration {
     @Bean
     public OpenAPI baseOpenApi() {
