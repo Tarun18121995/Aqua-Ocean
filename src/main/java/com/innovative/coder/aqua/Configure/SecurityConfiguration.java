@@ -33,6 +33,7 @@ public class SecurityConfiguration {
         final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(List.of("*"));  // Use List.of() instead of ImmutableList
         configuration.setAllowedMethods(List.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.addAllowedHeader("Authorization");
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(List.of("*"));
 
