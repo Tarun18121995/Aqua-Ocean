@@ -27,6 +27,7 @@ private LoginService loginService;
     public ResponseEntity<BaseResponseDto> createAquaAdmin(@RequestBody AquaAdminSignupDto aquaAdminSignupDto) {
         return loginService.createAquaAdmin(aquaAdminSignupDto);
     }
+
     @Operation(summary = "To login all users")
     @PostMapping(value="/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto, HttpServletRequest request) {
