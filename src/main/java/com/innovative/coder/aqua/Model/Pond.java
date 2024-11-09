@@ -49,4 +49,5 @@ public class Pond extends BaseEntity{
     private String country;
     @Column(name = "postal_code")
     private String postalCode;
+
 }

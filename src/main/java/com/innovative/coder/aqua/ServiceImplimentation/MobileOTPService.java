@@ -12,7 +12,6 @@ import java.util.Random;
 public class MobileOTPService {
     @Value("${MobileOTP.account.sid}")
     private String accountSid;
-
     @Value("${MobileOTP.auth.token}")
     private String authToken;
 

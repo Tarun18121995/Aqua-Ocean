@@ -14,4 +14,8 @@ public class ApplicationConstants
     public static final String LOGIN_NOT_FOUND = "Login not found.";
     public static final String COMPANY_NOT_FOUND = "Company not found.";
     public static final String LOGOUT_SUCCESSFUL = "Logged out Successfully";
+    public static final String COMPANY_CREATED = "Company created successfully";
+    public static final String PROVIDE_EMAIL = "Please Provide Email";
+    public static final String COMPANY_EXISTED = "Company mail Id already existed";
+
 }
