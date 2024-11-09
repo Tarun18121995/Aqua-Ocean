@@ -7,7 +7,7 @@ import com.innovative.coder.aqua.Dto.BaseResponseDto;
 import com.innovative.coder.aqua.Dto.LoginDto;
 import com.innovative.coder.aqua.Dto.LoginResponseDto;
 import com.innovative.coder.aqua.Model.Login;
-import com.innovative.coder.aqua.Model.User;
+import com.innovative.coder.aqua.Model.Member;
 import com.innovative.coder.aqua.Repository.LoginRepository;
 import com.innovative.coder.aqua.Repository.UserRepository;
 import com.innovative.coder.aqua.Service.LoginService;
@@ -43,7 +43,7 @@ public class LoginServiceImplementation implements LoginService {
     public ResponseEntity<LoginResponseDto> login(LoginDto loginDto, HttpServletRequest request) {
         LoginResponseDto loginResponseDto = new LoginResponseDto();
         try {
-            final User user = userRepository.findByEmailAndIsDeleted(loginDto.getEmail(), Boolean.FALSE);
+            final Member user = userRepository.findByEmailAndIsDeleted(loginDto.getEmail(), Boolean.FALSE);
             Assert.notNull(user, ApplicationConstants.EMAIL_NOT_EXIST);
                     LoginResponseDto loginResponse = getLoginResponseDtoResponseEntity(loginDto, request, loginResponseDto, user);
                     if (loginResponse != null) {
@@ -61,7 +61,7 @@ public class LoginServiceImplementation implements LoginService {
 
     }
 
-    private LoginResponseDto getLoginResponseDtoResponseEntity(LoginDto loginDto, HttpServletRequest request, LoginResponseDto loginResponseDto, User user) {
+    private LoginResponseDto getLoginResponseDtoResponseEntity(LoginDto loginDto, HttpServletRequest request, LoginResponseDto loginResponseDto, Member user) {
         if (Boolean.TRUE.equals(applicationUtilityServiceImpl.isPasswordMatched(loginDto.getPassword(), user.getPassword()))) {
             if(user.getLogins().stream().noneMatch(login -> StringUtils.pathEquals(ApplicationEnums.LogInStatusEnum.LOGGED_IN.toString(), login.getStatus().toString()))) {
                 Login login = new Login();
@@ -118,9 +118,9 @@ public class LoginServiceImplementation implements LoginService {
         try
         {
             String aquaAdmin = ApplicationEnums.RoleEnum.AQUA_ADMIN.toString();
-            final User userDetails =userRepository.findByRoleAndIsDeleted(aquaAdmin, Boolean.FALSE);
+            final Member userDetails =userRepository.findByRoleAndIsDeleted(aquaAdmin, Boolean.FALSE);
             if (ObjectUtils.isEmpty(userDetails)){
-                User user =new User();
+                Member user =new Member();
                 BeanUtils.copyProperties(aquaAdminSignupDto, user);
                 user.setPassword(applicationUtilityServiceImpl.getEncryptedPassword(aquaAdminSignupDto.getPassword()));
                 user.setIsActive(Boolean.TRUE);

@@ -32,7 +32,7 @@ public class Pond extends BaseEntity{
     private double capacity;
     @ManyToOne
     @JsonIgnore
-    private User pondOwner;
+    private Member pondOwner;
     @Column(name = "seedType")
     private String seedType;
     @Column(name = "pond_address_1")

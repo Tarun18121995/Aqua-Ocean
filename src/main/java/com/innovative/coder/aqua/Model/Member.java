@@ -25,7 +25,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseEntity
+public class Member extends BaseEntity
 {
     @Id
     @GeneratedValue(generator = "uuid")

@@ -2,7 +2,7 @@ package com.innovative.coder.aqua;
 
 import com.innovative.coder.aqua.Model.Company;
 import com.innovative.coder.aqua.Model.Login;
-import com.innovative.coder.aqua.Model.User;
+import com.innovative.coder.aqua.Model.Member;
 import com.innovative.coder.aqua.Repository.LoginRepository;
 import com.innovative.coder.aqua.applicationData.ApplicationConstants;
 import com.innovative.coder.aqua.applicationData.ApplicationEnums;
@@ -21,7 +21,7 @@ public class ApplicationUtils {
             String authToken = header.replace(ApplicationConstants.TOKEN_PREFIX, "").trim();
             Login login =loginRepository.findByTokenAndStatus(authToken, ApplicationEnums.LogInStatusEnum.LOGGED_IN);
             Assert.notNull(login,ApplicationConstants.LOGIN_NOT_FOUND);
-            User user =login.getUser();
+            Member user =login.getUser();
             Company company = user.getCompany();
             Assert.isTrue(!user.getIsDeleted(), ApplicationConstants.USER_NOT_FOUND);
 //            Assert.isTrue(!company.getIsDeleted(), ApplicationConstants.COMPANY_NOT_FOUND);

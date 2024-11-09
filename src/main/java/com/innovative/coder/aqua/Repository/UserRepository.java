@@ -1,12 +1,12 @@
 package com.innovative.coder.aqua.Repository;
 
-import com.innovative.coder.aqua.Model.User;
+import com.innovative.coder.aqua.Model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<User, UUID> {
-    User findByEmailAndIsDeleted(String email, Boolean aFalse);
+public interface UserRepository extends JpaRepository<Member, UUID> {
+    Member findByEmailAndIsDeleted(String email, Boolean aFalse);
 
-    User findByRoleAndIsDeleted(String aquaAdmin, Boolean aFalse);
+    Member findByRoleAndIsDeleted(String aquaAdmin, Boolean aFalse);
 }

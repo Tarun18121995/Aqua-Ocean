@@ -3,7 +3,7 @@ package com.innovative.coder.aqua.Configure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.innovative.coder.aqua.Model.Login;
-import com.innovative.coder.aqua.Model.User;
+import com.innovative.coder.aqua.Model.Member;
 import com.innovative.coder.aqua.Service.LoginService;
 import com.innovative.coder.aqua.applicationData.ApplicationConstants;
 import com.innovative.coder.aqua.applicationData.ApplicationEnums;
@@ -23,7 +23,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.List;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -57,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Login login = loginService.findByTokenAndStatus(authToken, ApplicationEnums.LogInStatusEnum.LOGGED_IN);
             Assert.notNull(login, "TOKEN EXPIRED or DELETED");
 
-            User user = login.getUser();
+            Member user = login.getUser();
             Assert.notNull(user, "User doesn't exist with provided token");
             Assert.isTrue(user.getIsActive(), "User is Inactive");
 

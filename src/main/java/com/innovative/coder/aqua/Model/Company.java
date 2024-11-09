@@ -1,6 +1,5 @@
 package com.innovative.coder.aqua.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,9 +8,7 @@ import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.sql.Types;
@@ -53,7 +50,7 @@ public class Company extends BaseEntity
     private String slackChannelName;
 
     @OneToMany(mappedBy = "company")
-    private List<User> Users;
+    private List<Member> Users;
 
 //    @OneToMany(mappedBy="customer")
 //    private List<Location> locations;

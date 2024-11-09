@@ -1,6 +1,6 @@
 package com.innovative.coder.aqua.Configure;
 
-import com.innovative.coder.aqua.Model.User;
+import com.innovative.coder.aqua.Model.Member;
 import com.innovative.coder.aqua.applicationData.ApplicationConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -39,11 +39,11 @@ public class JwtTokenUtils {
         return expiration.before(new Date());
     }
 
-    public String generateToken(User user) {
+    public String generateToken(Member user) {
         return doGenerateToken(user);
     }
 
-    private String doGenerateToken(User user) {
+    private String doGenerateToken(Member user) {
 
         Claims claims = Jwts.claims().setSubject(user.getEmail());
         claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
