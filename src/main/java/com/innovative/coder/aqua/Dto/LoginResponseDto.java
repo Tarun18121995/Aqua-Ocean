@@ -13,4 +13,5 @@ public class LoginResponseDto extends BaseResponseDto
     private String warningMessage;
     private Boolean isProfileCompleted;
     private String departmentId;
+
 }

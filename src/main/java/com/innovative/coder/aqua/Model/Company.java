@@ -52,8 +52,6 @@ public class Company extends BaseEntity
     private String slackToken;
     private String slackChannelName;
 
-    //    private LocalDateTime mailSentOn;
-//    private LocalDateTime createdAt;
     @OneToMany(mappedBy = "company")
     private List<User> Users;
 

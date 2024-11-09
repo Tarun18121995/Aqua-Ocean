@@ -134,7 +134,6 @@ public class LoginServiceImplementation implements LoginService {
         }catch (Exception e)
         {
             e.printStackTrace();
-//            log.info(e.getLocalizedMessage());
             baseResponseDto.setMessage(e.getLocalizedMessage());
             return new ResponseEntity<>(baseResponseDto,HttpStatus.BAD_REQUEST);
         }

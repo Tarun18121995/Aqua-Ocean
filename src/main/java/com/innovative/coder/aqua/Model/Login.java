@@ -11,9 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.sql.Types;
@@ -38,7 +36,7 @@ public class Login
     @Enumerated(EnumType.STRING)
     private ApplicationEnums.LogInStatusEnum status;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private Member user;
+
 }
 

@@ -6,4 +6,5 @@ import lombok.Data;
 public class AquaAdminSignupDto {
     private String email;
     private String password;
+
 }
