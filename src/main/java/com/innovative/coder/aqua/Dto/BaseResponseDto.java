@@ -9,4 +9,5 @@ public class BaseResponseDto
 {
     private UUID id;
     private String message;
+
 }

@@ -18,4 +18,5 @@ public class ApplicationServiceImpl {
         String encodedPassword = passwordEncoder.encode(password);
         return encodedPassword;
     }
+
 }

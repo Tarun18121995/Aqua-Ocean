@@ -30,10 +30,9 @@ public class BaseEntity
         this.updateTimestamp = LocalDateTime.now();
     }
     @Column(columnDefinition = "VARCHAR(36)")
-//    @Type(type = "uuid-char")
     private UUID createdBy;
     @Column(columnDefinition = "VARCHAR(36)")
-//    @Type(type = "uuid-char")
     private UUID updatedBy;
+
 }
 

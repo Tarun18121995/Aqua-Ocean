@@ -27,5 +27,4 @@ public class ApplicationUtils {
 //            Assert.isTrue(!company.getIsDeleted(), ApplicationConstants.COMPANY_NOT_FOUND);
             return login;
     }
-
 }

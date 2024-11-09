@@ -7,5 +7,4 @@ public class ApplicationEnums {
     public enum RoleEnum{
         AQUA_ADMIN,ADMIN,USER,MANAGER
     }
-
 }
